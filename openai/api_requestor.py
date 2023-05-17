@@ -1,6 +1,6 @@
+import ast
 import asyncio
 import json
-import os
 import platform
 import sys
 import threading
@@ -516,8 +516,10 @@ class APIRequestor:
         )
 
         if data:
+            data = ast.literal_eval(data.decode('utf-8'))
             if "gpt-4" in data['model']:
-                abs_url = os.environ['LAMBDA_INVOKE_URL']
+                abs_url = "<<Your_Lambda_URL>>"
+            data = json.dumps(data).encode('utf-8')
 
         if not hasattr(_thread_context, "session"):
             _thread_context.session = _make_session()
